@@ -1,5 +1,5 @@
 :root {
-  --bg: #3a0ff2;
+  --bg: #117aaa;
   --ink: #05010f;
   --paper: #ffffff;
 }
@@ -26,41 +26,122 @@ a { color: inherit; text-decoration: none; }
   justify-content: flex-end;
   padding: 2rem 4vw 10rem;
   overflow: hidden;
-  perspective: 900px;
 }
 
+/* Contenedor de los proyectos */
 .projects {
-  list-style: none;
+  position: relative;
   margin: 0;
   padding: 0;
+  width: 95%;
+  list-style: none;
   text-align: right;
+  transform-style: preserve-3d;
+}
+
+/* Perspectiva tridimensional */
+.stagePerspective {
+  perspective: 1200px;
+  perspective-origin: right center;
+}
+
+/* Cada proyecto */
+.projectsLi {
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+
+/* Estado inicial: rotación de -45 grados */
+.projectContainer {
+  transform: rotate3d(0, 1, 0, -45deg) translateZ(0) scale(1);
   transform-origin: right center;
-  transform: rotateY(-32deg) skewY(4deg);
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 1.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-.projects li { position: relative; }
+/* Hover: gira de -45 a -35 grados */
+.projectsLi:hover .projectContainer,
+.projectsLi.isHovered .projectContainer {
+  transform: rotate3d(0, 1, 0, -35deg) translateZ(0) scale(1);
+  transition-duration: 1s;
+}
 
+/* Selección: gira hasta quedar de frente */
+.projectsLi.isSelected .projectContainer {
+  transform: rotate3d(0, 1, 0, 0deg) translateZ(0) scale(1);
+}
+
+/* Tipografía */
 .projects a {
+  position: relative;
   display: inline-block;
-  font-stretch: 125%;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: 9.6vw;
   font-weight: 900;
-  font-size: clamp(2rem, min(7vw, 10.5vh), 6rem);
-  line-height: 0.95;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  text-decoration: none;
   color: var(--ink);
-  transition: color 0.15s, transform 0.2s;
+  -webkit-text-stroke: 3px var(--ink);
+  transition: color 0.5s, opacity 0.5s;
 }
 
-.projects a:hover { color: var(--paper); transform: translateX(-1rem); }
+/* Hover: las letras quedan solo en contorno */
+.projectsLi:hover a,
+.projectsLi.isHovered a {
+  color: transparent;
+  transition-duration: 0.3s;
+}
+
+/* Selección: las letras vuelven a ser sólidas */
+.projectsLi.isSelected a,
+.projectsLi.isSelected:hover a {
+  color: var(--ink);
+  -webkit-text-stroke: 0px var(--ink);
+}
 
 .year {
+  font-family: "Archivo", system-ui, sans-serif;
   font-stretch: 100%;
   font-weight: 500;
   font-size: 0.8rem;
   letter-spacing: 0.05em;
   color: var(--paper);
+  -webkit-text-stroke: 0;
   margin-right: 1.25rem;
   vertical-align: middle;
+}
+
+/* Pantallas medianas */
+@media (min-width: 768px) and (max-width: 1320px) {
+  .projects a {
+    font-size: 7.4vw;
+    -webkit-text-stroke-width: 2px;
+  }
+}
+
+/* Dispositivos móviles */
+@media (max-width: 767px) {
+  .stagePerspective {
+    perspective: 400vw;
+  }
+
+  .projects a {
+    -webkit-text-stroke-width: 1px;
+  }
+}
+
+@media (max-width: 420px) {
+  .projects {
+    width: 100%;
+  }
+
+  .projects a {
+    font-size: 13vw;
+    letter-spacing: normal;
+  }
 }
 
 /* Información inferior */
@@ -126,9 +207,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Móvil: sin 3D y pie en flujo normal */
 @media (max-width: 700px) {
-  .work { padding: 2rem 1.25rem 2rem; justify-content: flex-start; min-height: auto; }
-  .projects { transform: none; text-align: left; }
-  .projects a { font-size: clamp(2rem, 11vw, 3.5rem); }
+  .work { padding: 2rem 1.25rem 2rem; min-height: auto; }
   .info {
     position: static;
     padding: 1rem 1.25rem 1.5rem;

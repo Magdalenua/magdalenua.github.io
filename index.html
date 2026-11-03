@@ -11,14 +11,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="work">
+  <main class="work stagePerspective">
     <ul class="projects">
-      <li><a href="https://github.com/Magdalenua"><span class="year">2026</span>Proyecto Uno</a></li>
-      <li><a href="https://github.com/Magdalenua"><span class="year">2026</span>Proyecto Dos</a></li>
-      <li><a href="https://github.com/Magdalenua"><span class="year">2025</span>Proyecto Tres</a></li>
-      <li><a href="https://github.com/Magdalenua"><span class="year">2025</span>Proyecto Cuatro</a></li>
-      <li><a href="https://github.com/Magdalenua"><span class="year">2024</span>Proyecto Cinco</a></li>
-      <li><a href="https://github.com/Magdalenua"><span class="year">2024</span>skills</a></li>
+      <li class="projectsLi"><div class="projectContainer"><a href="https://github.com/Magdalenua"><span class="year">2026</span>Proyecto Uno</a></div></li>
+      <li class="projectsLi"><div class="projectContainer"><a href="https://github.com/Magdalenua"><span class="year">2026</span>Proyecto Dos</a></div></li>
+      <li class="projectsLi"><div class="projectContainer"><a href="https://github.com/Magdalenua"><span class="year">2025</span>Proyecto Tres</a></div></li>
+      <li class="projectsLi"><div class="projectContainer"><a href="https://github.com/Magdalenua"><span class="year">2025</span>Proyecto Cuatro</a></div></li>
+      <li class="projectsLi"><div class="projectContainer"><a href="https://github.com/Magdalenua"><span class="year">2024</span>Proyecto Cinco</a></div></li>
+      <li class="projectsLi"><div class="projectContainer"><a href="https://github.com/Magdalenua"><span class="year">2024</span>skills</a></div></li>
     </ul>
   </main>
 
@@ -35,5 +35,25 @@
     </div>
     <p class="copy">&copy; 2026 Magdalenua.</p>
   </footer>
+
+  <script>
+    // Primer clic: el proyecto gira hasta quedar de frente (isSelected).
+    // Segundo clic sobre el proyecto ya seleccionado: abre el enlace.
+    const items = document.querySelectorAll('.projectsLi');
+    items.forEach((li) => {
+      li.addEventListener('click', (e) => {
+        if (li.classList.contains('isSelected')) return;
+        e.preventDefault();
+        items.forEach((other) => other.classList.remove('isSelected'));
+        li.classList.add('isSelected');
+      });
+    });
+    // Clic fuera de la lista: se deselecciona todo.
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.projectsLi')) {
+        items.forEach((li) => li.classList.remove('isSelected'));
+      }
+    });
+  </script>
 </body>
 </html>
